@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andika Wijaya — Personal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
+
+:root{
+  --bg: #f7f4ee;
+  --bg-warm: #f2ede2;
+  --paper: #fbfaf6;
+  --line: #dcd5c6;
+  --line-soft: #e6e0d3;
+  --ink: #201e1a;
+  --ink-soft: #6d6759;
+  --ink-faint: #a9a190;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter', sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+::selection{ background:var(--ink); color:var(--bg); }
+img, svg{ display:block; max-width:100%; }
+
+.serif{ font-family:'Instrument Serif', serif; font-weight:400; letter-spacing:-0.01em; }
+
+.eyebrow{
+  font-size:11px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  font-weight:500;
+}
+
+.wrap{ max-width:1180px; margin:0 auto; padding:0 40px; }
+a{ color:inherit; text-decoration:none; }
+
+/* ---------- cursor light ---------- */
+.cursor-light{
+  position:fixed; top:0; left:0;
+  width:280px; height:280px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,252,244,0.55) 0%, rgba(255,252,244,0.0) 70%);
+  filter:blur(6px);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  z-index:2;
+  opacity:0;
+  transition:opacity .5s var(--ease), width .5s var(--ease), height .5s var(--ease);
+  mix-blend-mode:multiply;
+}
+.cursor-light.active{ opacity:1; }
+.cursor-light.hovering{
+  width:380px; height:380px;
+  background:radial-gradient(circle, rgba(255,252,244,0.75) 0%, rgba(255,252,244,0.0) 70%);
+}
+@media (hover:none), (pointer:coarse){ .cursor-light{ display:none; } }
+
+/* ---------- nav ---------- */
+header{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  padding:26px 0;
+  transition:padding .5s var(--ease), background .5s var(--ease), border-color .5s var(--ease);
+  border-bottom:1px solid transparent;
+}
+header.scrolled{
+  padding:16px 0;
+  background:rgba(247,244,238,0.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+header .wrap{ display:flex; align-items:center; justify-content:space-between; }
+.logo{ font-family:'Instrument Serif', serif; font-size:19px; letter-spacing:0.06em; }
+nav.links{ display:flex; gap:40px; }
+nav.links a{
+  font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--ink-soft); position:relative; padding-bottom:3px;
+}
+nav.links a::after{
+  content:''; position:absolute; left:0; right:100%; bottom:0; height:1px;
+  background:var(--ink); transition:right .45s var(--ease);
+}
+nav.links a:hover{ color:var(--ink); }
+nav.links a:hover::after{ right:0; }
+
+.menu-toggle{
+  display:none; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+  background:none; border:none; color:var(--ink); cursor:pointer; font-family:inherit;
+}
+
+.nav-overlay{
+  position:fixed; inset:0; background:var(--paper); z-index:60;
+  display:flex; flex-direction:column; justify-content:center; padding:40px;
+  transform:translateY(-100%); transition:transform .6s var(--ease);
+}
+.nav-overlay.open{ transform:translateY(0); }
+.nav-overlay a{ font-family:'Instrument Serif', serif; font-size:44px; padding:14px 0; border-bottom:1px solid var(--line); }
+.nav-overlay .close-btn{
+  position:absolute; top:26px; right:40px; font-size:12px; letter-spacing:0.12em;
+  text-transform:uppercase; background:none; border:none; color:var(--ink); cursor:pointer; font-family:inherit;
+}
+@media (max-width:760px){ nav.links{ display:none; } .menu-toggle{ display:block; } }
+
+/* ---------- section shell ---------- */
+.section-divider{
+  display:flex; align-items:center; gap:18px; color:var(--ink-faint);
+  font-size:11px; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:64px;
+}
+.section-divider .num{ color:var(--ink); font-weight:500; }
+.section-divider .rule{ flex:1; height:1px; background:var(--line); }
+
+section{ position:relative; padding:120px 0; }
+section.alt{ background:var(--bg-warm); }
+section.tight{ padding:90px 0; }
+
+.reveal{ opacity:0; transform:translateY(28px); transition:opacity 1s var(--ease), transform 1s var(--ease); }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ---------- hero ---------- */
+.hero{ min-height:100vh; display:flex; align-items:center; padding-top:90px; }
+.hero .wrap{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:center; }
+.hero-left .kicker{ font-size:13px; letter-spacing:0.05em; color:var(--ink-soft); margin-bottom:22px; }
+.hero-left h1{
+  font-family:'Instrument Serif', serif;
+  font-size:clamp(48px, 7.4vw, 96px);
+  line-height:0.96; letter-spacing:-0.01em;
+}
+.hero-left .tagline{
+  margin-top:34px; font-family:'Instrument Serif', serif; font-style:italic;
+  font-size:clamp(22px, 2.6vw, 30px); color:var(--ink); line-height:1.35; max-width:460px;
+}
+.hero-meta{ margin-top:52px; display:flex; gap:52px; }
+.hero-meta div{ font-size:13px; color:var(--ink-soft); line-height:1.6; }
+.hero-meta span{
+  display:block; font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--ink-faint); margin-bottom:6px;
+}
+
+.hero-visual{ position:relative; justify-self:end; width:100%; max-width:340px; transform:translateX(28px); }
+.portrait{
+  position:relative; aspect-ratio:3/4; overflow:hidden; border:1px solid var(--line);
+  background:#c9c2b1;
+}
+.portrait img{
+  width:100%; height:100%; object-fit:cover; object-position:center 20%;
+  filter:grayscale(0.35) contrast(1.04) saturate(0.9);
+  transition:filter .6s var(--ease);
+}
+.portrait:hover img{ filter:grayscale(0) contrast(1.02) saturate(1); }
+.portrait-caption{
+  margin-top:14px; display:flex; justify-content:space-between;
+  font-size:11px; letter-spacing:0.06em; color:var(--ink-faint);
+}
+@media (max-width:900px){
+  .hero .wrap{ grid-template-columns:1fr; }
+  .hero-visual{ justify-self:start; transform:none; margin-top:50px; max-width:280px; }
+  .hero-meta{ flex-direction:column; gap:18px; }
+}
+
+/* ---------- about ---------- */
+.about-grid{ display:grid; grid-template-columns:0.55fr 1fr 0.75fr; gap:70px; }
+.about-grid .intro p{
+  font-family:'Instrument Serif', serif; font-size:clamp(22px, 2.4vw, 28px);
+  line-height:1.55; color:var(--ink); margin-bottom:26px;
+}
+.identity-line{
+  font-family:'Instrument Serif', serif; font-style:italic;
+  font-size:clamp(24px, 2.6vw, 30px); color:var(--ink-soft); margin-top:30px;
+}
+.identity-gloss{ margin-top:8px; }
+
+.interests{ border-left:1px solid var(--line); padding-left:36px; }
+.interests .label{
+  font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:22px;
+}
+.tag-list{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:30px; }
+.tag{
+  font-size:12px; padding:7px 13px; border:1px solid var(--line); color:var(--ink-soft);
+  transition:border-color .35s var(--ease), color .35s var(--ease);
+}
+.tag:hover{ border-color:var(--ink); color:var(--ink); }
+.now-learning{
+  font-size:13px; color:var(--ink-soft); border-top:1px solid var(--line-soft); padding-top:20px;
+}
+.now-learning span{
+  display:block; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px;
+}
+@media (max-width:900px){
+  .about-grid{ grid-template-columns:1fr; gap:44px; }
+  .interests{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:24px; }
+}
+
+/* ---------- work ---------- */
+.work-list{ position:relative; }
+.work-row{
+  display:grid; grid-template-columns:60px 1fr auto; align-items:start; gap:28px;
+  padding:36px 0; border-bottom:1px solid var(--line); cursor:pointer;
+  transition:padding .5s var(--ease);
+}
+.work-row:first-child{ border-top:1px solid var(--line); }
+.work-row .num{ font-size:13px; color:var(--ink-faint); font-variant-numeric:tabular-nums; padding-top:6px; }
+.work-row .title-wrap{ overflow:hidden; }
+.work-row h3{
+  font-family:'Instrument Serif', serif; font-size:clamp(28px, 4vw, 46px);
+  letter-spacing:-0.01em; transition:transform .6s var(--ease), color .5s var(--ease);
+}
+.work-row .desc{ font-size:13px; color:var(--ink-soft); margin-top:6px; }
+.work-row .tech{ margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; }
+.work-row .tech span{
+  font-size:10.5px; letter-spacing:0.04em; color:var(--ink-faint);
+  border:1px solid var(--line-soft); padding:4px 9px;
+}
+.work-row .side{ display:flex; flex-direction:column; align-items:flex-end; gap:10px; padding-top:6px; }
+.work-row .visit{
+  font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft);
+  border-bottom:1px solid var(--line); padding-bottom:2px; white-space:nowrap;
+  transition:color .4s var(--ease), border-color .4s var(--ease);
+}
+.work-row .visit:hover{ color:var(--ink); border-color:var(--ink); }
+.work-row .status{
+  font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint);
+}
+.work-row .arrow{
+  font-family:'Instrument Serif', serif; font-style:italic; font-size:20px; color:var(--ink-faint);
+  transform:rotate(0deg) translateX(0); transition:transform .5s var(--ease), color .5s var(--ease);
+}
+.work-row:hover{ padding-left:14px; }
+.work-row:hover h3{ transform:translateX(6px); }
+.work-row:hover .arrow{ transform:rotate(45deg) translateX(4px); color:var(--ink); }
+
+.work-preview{
+  position:fixed; top:0; left:0; width:260px; aspect-ratio:4/3; pointer-events:none; z-index:5;
+  opacity:0; border:1px solid var(--line); overflow:hidden;
+  transition:opacity .45s var(--ease); transform:translate(-50%,-50%);
+}
+.work-preview.active{ opacity:1; }
+.work-preview .plate{ position:absolute; inset:0; transition:background 0.3s ease; }
+.work-preview .plate::after{
+  content:''; position:absolute; inset:0;
+  background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.04) 0px, transparent 1px, transparent 4px);
+}
+@media (max-width:760px){
+  .work-preview{ display:none; }
+  .work-row{ grid-template-columns:30px 1fr; }
+  .work-row .side{ grid-column:1/-1; flex-direction:row; justify-content:flex-start; margin-top:10px; }
+}
+
+/* ---------- quiet quote sections ---------- */
+.quiet-block{ max-width:780px; }
+.quiet-block .big{
+  font-family:'Instrument Serif', serif; font-style:italic;
+  font-size:clamp(26px, 3.6vw, 42px); line-height:1.4; color:var(--ink);
+}
+.quiet-block .attribution{ margin-top:22px; font-size:12px; color:var(--ink-faint); letter-spacing:0.06em; }
+
+/* ---------- two-col quiet (business/investing) ---------- */
+.duo{ display:grid; grid-template-columns:1fr 1fr; gap:70px; }
+.duo .label{ font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:18px; }
+.duo p{ font-size:15.5px; line-height:1.75; color:var(--ink-soft); }
+.duo p em{ color:var(--ink); font-style:italic; }
+@media (max-width:800px){ .duo{ grid-template-columns:1fr; gap:44px; } }
+
+/* ---------- music ---------- */
+.music-grid{ display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:start; }
+.instrument-list{ list-style:none; }
+.instrument-list li{
+  display:flex; justify-content:space-between; align-items:baseline;
+  padding:20px 0; border-bottom:1px solid var(--line-soft);
+}
+.instrument-list li:first-child{ border-top:1px solid var(--line-soft); }
+.instrument-list .name{ font-family:'Instrument Serif', serif; font-size:26px; }
+.instrument-list .note{ font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); }
+.genre-line{ margin-top:26px; font-size:13px; color:var(--ink-soft); }
+.genre-line span{ color:var(--ink); }
+.music-right p{ font-family:'Instrument Serif', serif; font-size:22px; line-height:1.5; color:var(--ink-soft); }
+@media (max-width:800px){ .music-grid{ grid-template-columns:1fr; gap:44px; } }
+
+/* ---------- inspiration ---------- */
+.inspire-list{ list-style:none; max-width:820px; }
+.inspire-list li{
+  padding:22px 0; border-bottom:1px solid var(--line-soft);
+  display:grid; grid-template-columns:200px 1fr; gap:24px; font-size:14px;
+}
+.inspire-list li:first-child{ border-top:1px solid var(--line-soft); }
+.inspire-list .who{ font-family:'Instrument Serif', serif; font-size:20px; color:var(--ink); }
+.inspire-list .why{ color:var(--ink-soft); line-height:1.6; }
+.inspire-note{ margin-top:34px; font-size:13px; color:var(--ink-faint); max-width:600px; line-height:1.7; }
+@media (max-width:700px){ .inspire-list li{ grid-template-columns:1fr; gap:6px; } }
+
+/* ---------- archive / gallery ---------- */
+.archive-grid{
+  display:grid;
+  grid-template-columns:repeat(6, 1fr);
+  grid-auto-rows:10px;
+  gap:18px;
+}
+.frag{ position:relative; overflow:hidden; border:1px solid var(--line); cursor:pointer; }
+.frag img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter:grayscale(0.9) contrast(1.02);
+  transition:filter .7s var(--ease), transform .9s var(--ease);
+  transform:scale(1.01);
+}
+.frag:hover img{ filter:grayscale(0) contrast(1.02); transform:scale(1.05); }
+.frag-cap{
+  position:absolute; left:14px; bottom:12px; font-size:11px; color:#fbfaf6;
+  text-shadow:0 1px 6px rgba(0,0,0,0.5);
+  opacity:0; transform:translateY(6px);
+  transition:opacity .5s var(--ease), transform .5s var(--ease);
+}
+.frag:hover .frag-cap{ opacity:1; transform:translateY(0); }
+
+.f1{ grid-column:1/4; grid-row:1/68; }
+.f2{ grid-column:4/7; grid-row:1/44; }
+.f3{ grid-column:4/6; grid-row:44/78; }
+.f4{ grid-column:6/7; grid-row:44/78; }
+.f5{ grid-column:1/4; grid-row:68/104; }
+.f6{ grid-column:4/7; grid-row:78/104; }
+
+@media (max-width:800px){
+  .archive-grid{ grid-template-columns:1fr 1fr; grid-auto-rows:120px; gap:12px; }
+  .f1{ grid-column:1/3; grid-row:span 3; }
+  .f2{ grid-column:1/2; grid-row:span 2; }
+  .f3{ grid-column:2/3; grid-row:span 2; }
+  .f4{ grid-column:1/2; grid-row:span 2; }
+  .f5{ grid-column:2/3; grid-row:span 2; }
+  .f6{ grid-column:1/3; grid-row:span 2; }
+}
+
+/* ---------- achievements ---------- */
+.achieve-row{
+  display:flex; align-items:baseline; gap:26px; padding:22px 0; border-top:1px solid var(--line-soft);
+  max-width:620px;
+}
+.achieve-row:last-child{ border-bottom:1px solid var(--line-soft); }
+.achieve-row .mark{ font-family:'Instrument Serif', serif; font-style:italic; font-size:24px; color:var(--ink-faint); }
+.achieve-row .body h4{ font-size:15px; font-weight:500; margin-bottom:4px; }
+.achieve-row .body p{ font-size:13px; color:var(--ink-soft); }
+
+/* ---------- future ---------- */
+.future-block p{
+  font-family:'Instrument Serif', serif; font-size:clamp(24px, 3vw, 34px); line-height:1.55; color:var(--ink); max-width:820px;
+}
+.future-tags{ margin-top:34px; display:flex; flex-wrap:wrap; gap:10px; }
+
+/* ---------- fear / coda ---------- */
+.fear-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+.fear-q{ font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:16px; }
+.fear-a{ font-family:'Instrument Serif', serif; font-style:italic; font-size:clamp(20px, 2.4vw, 26px); line-height:1.5; color:var(--ink); }
+@media (max-width:800px){ .fear-grid{ grid-template-columns:1fr; gap:44px; } }
+
+.coda{
+  min-height:70vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:140px 0; background:var(--ink); color:var(--bg);
+}
+.coda .eyebrow{ color:rgba(247,244,238,0.45); }
+.coda h2{
+  font-family:'Instrument Serif', serif; font-style:italic;
+  font-size:clamp(38px, 7vw, 84px); line-height:1.15; margin-top:26px;
+}
+.coda .sign{ margin-top:36px; font-size:13px; letter-spacing:0.1em; color:rgba(247,244,238,0.5); }
+
+/* ---------- contact ---------- */
+.contact-inner{ display:grid; grid-template-columns:1.2fr 1fr; gap:60px; align-items:end; }
+.contact-inner h2{
+  font-family:'Instrument Serif', serif; font-style:italic; font-size:clamp(30px, 4.6vw, 50px); line-height:1.25; max-width:520px;
+}
+.contact-links{ display:flex; flex-direction:column; gap:0; }
+.contact-links a{
+  padding:16px 0; border-bottom:1px solid var(--line); font-size:14px; display:flex; justify-content:space-between;
+  color:var(--ink-soft); transition:color .4s var(--ease), padding-left .4s var(--ease);
+}
+.contact-links a:first-child{ border-top:1px solid var(--line); }
+.contact-links a:hover{ color:var(--ink); padding-left:8px; }
+.contact-links a span{ font-size:11px; color:var(--ink-faint); }
+@media (max-width:900px){ .contact-inner{ grid-template-columns:1fr; gap:44px; } }
+
+/* ---------- footer ---------- */
+footer{ border-top:1px solid var(--line); padding:32px 0; background:var(--bg); }
+footer .wrap{ display:flex; justify-content:space-between; font-size:11px; letter-spacing:0.06em; color:var(--ink-faint); }
+
+@media (max-width:600px){
+  .wrap{ padding:0 24px; }
+  section{ padding:80px 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-light" id="cursorLight"></div>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <a href="#top" class="logo">ANDIKA</a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#archive">Archive</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle">Menu</button>
+  </div>
+</header>
+
+<div class="nav-overlay" id="navOverlay">
+  <button class="close-btn" id="closeMenu">Close</button>
+  <a href="#about" class="ov-link">About</a>
+  <a href="#work" class="ov-link">Work</a>
+  <a href="#archive" class="ov-link">Archive</a>
+  <a href="#contact" class="ov-link">Contact</a>
+</div>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-left reveal">
+        <div class="kicker">Student / Builder / Technology Enthusiast</div>
+        <h1>Andika<br>Wijaya</h1>
+        <p class="tagline">I like turning ideas<br>into things that exist.</p>
+        <div class="hero-meta">
+          <div><span>Location</span>Based in Indonesia</div>
+          <div><span>Focus</span>Currently learning technology &amp; building projects</div>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="portrait"><img src="assets/profile.jpg" alt="Andika Wijaya"></div>
+        <div class="portrait-caption">
+          <span>01 — Andika Wijaya</span>
+          <span>2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">01</span><span>About</span><div class="rule"></div></div>
+      <div class="about-grid">
+        <div></div>
+        <div class="intro reveal">
+          <p>I'm curious about how things work. Technology keeps changing, and there's always something new to learn — that's what keeps me curious.</p>
+          <p>I learn best by doing. Building something myself teaches me more than reading about it ever could. If I get it wrong, I can always try again.</p>
+          <div class="identity-line">Penasaran. Merakit. Membuat.</div>
+          <div class="identity-gloss eyebrow">Curious. Building. Making.</div>
+        </div>
+        <div class="interests reveal">
+          <div class="label">Interests</div>
+          <div class="tag-list">
+            <span class="tag">Technology</span>
+            <span class="tag">Programming</span>
+            <span class="tag">Artificial Intelligence</span>
+            <span class="tag">Web Development</span>
+            <span class="tag">App Development</span>
+            <span class="tag">Robotics</span>
+            <span class="tag">Business</span>
+            <span class="tag">Investing</span>
+            <span class="tag">Music</span>
+          </div>
+          <div class="now-learning">
+            <span>Currently learning</span>
+            Currently exploring AI and intelligent technology.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="alt">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">02</span><span>Selected Work</span><div class="rule"></div></div>
+      <div class="work-list">
+
+        <div class="work-row reveal" data-tone="1">
+          <div class="num">01</div>
+          <div class="title-wrap">
+            <h3>NutriBin</h3>
+            <div class="desc">Smart compost monitoring</div>
+            <div class="tech"><span>ESP32</span><span>Sensors</span><span>Firebase</span><span>IoT</span><span>Environmental Monitoring</span></div>
+          </div>
+          <div class="side">
+            <a class="visit" href="https://smart-compos.vercel.app" target="_blank" rel="noopener">Visit Project</a>
+            <div class="arrow">→</div>
+          </div>
+        </div>
+
+        <div class="work-row reveal" data-tone="2">
+          <div class="num">02</div>
+          <div class="title-wrap">
+            <h3>School Application</h3>
+            <div class="desc">A digital school platform</div>
+            <div class="tech"><span>Student</span><span>Teacher</span><span>Admin</span><span>Authentication</span><span>Database</span><span>Schedule</span><span>Attendance</span></div>
+          </div>
+          <div class="side">
+            <span class="status">In development</span>
+          </div>
+        </div>
+
+        <div class="work-row reveal" data-tone="3">
+          <div class="num">03</div>
+          <div class="title-wrap">
+            <h3>Wayang Museum</h3>
+            <div class="desc">Interactive cultural experience</div>
+            <div class="tech"><span>Interactive Museum</span><span>Education</span><span>Culture</span></div>
+          </div>
+          <div class="side">
+            <a class="visit" href="https://wayang-kelompok5.vercel.app" target="_blank" rel="noopener">Visit Project</a>
+            <div class="arrow">→</div>
+          </div>
+        </div>
+
+        <div class="work-row reveal" data-tone="4">
+          <div class="num">04</div>
+          <div class="title-wrap">
+            <h3>Band</h3>
+            <div class="desc">Music / band website</div>
+            <div class="tech"><span>Music</span><span>Web</span></div>
+          </div>
+          <div class="side">
+            <a class="visit" href="https://band-musik-bs.vercel.app" target="_blank" rel="noopener">Visit Project</a>
+            <div class="arrow">→</div>
+          </div>
+        </div>
+
+        <div class="work-row reveal" data-tone="5">
+          <div class="num">05</div>
+          <div class="title-wrap">
+            <h3>Digital Music</h3>
+            <div class="desc">Digital music experience</div>
+            <div class="tech"><span>Music</span><span>Web</span></div>
+          </div>
+          <div class="side">
+            <a class="visit" href="https://musik-digital.vercel.app" target="_blank" rel="noopener">Visit Project</a>
+            <div class="arrow">→</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="work-preview" id="workPreview"><div class="plate" id="workPlate"></div></div>
+  </section>
+
+  <section id="philosophy" class="tight">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">03</span><span>What I Believe</span><div class="rule"></div></div>
+      <div class="quiet-block reveal">
+        <p class="big">I'd rather build proof than talk about it. Something real says more than words ever could.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="business" class="alt tight">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">04</span><span>Business &amp; Investing</span><div class="rule"></div></div>
+      <div class="duo">
+        <div class="reveal">
+          <div class="label">Business</div>
+          <p>Business is one of the ways I hope to reach the things I want to do. I'm still learning and exploring — <em>robotics and technology products</em> are what interest me most. Long-term, I want to build something real, not just use what others have built.</p>
+        </div>
+        <div class="reveal">
+          <div class="label">Investing</div>
+          <p>I'd rather put some of my money to work than let it sit unused. That's really the whole reason — <em>not trading, not performance to show off</em>, just a habit of not leaving things idle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="music" class="tight">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">05</span><span>Beyond Technology</span><div class="rule"></div></div>
+      <div class="music-grid">
+        <ul class="instrument-list reveal">
+          <li><span class="name">Guitar</span><span class="note">Most comfortable</span></li>
+          <li><span class="name">Violin</span><span class="note">Second strongest</span></li>
+          <li><span class="name">Piano</span><span class="note">Still learning</span></li>
+        </ul>
+        <div class="music-right reveal">
+          <p>Music is one of the important parts of who I am. I play guitar and violin the most. Pop and classical, mostly.</p>
+          <div class="genre-line">Genres — <span>Pop, Classical</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inspiration" class="alt">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">06</span><span>People &amp; Ideas That Inspire Me</span><div class="rule"></div></div>
+      <ul class="inspire-list reveal">
+        <li><span class="who">Elon Musk</span><span class="why">Pushing on ideas most people would call unreasonable.</span></li>
+        <li><span class="who">The people building AI today</span><span class="why">Turning something that felt theoretical into tools people actually use.</span></li>
+        <li><span class="who">Guido van Rossum</span><span class="why">Creator of Python — the language I learn almost everything else through.</span></li>
+        <li><span class="who">The creators of HTML, JavaScript &amp; C++</span><span class="why">The quiet foundation nearly everything I build stands on.</span></li>
+      </ul>
+      <p class="inspire-note reveal">Not because of who they are, but because they show that technology can be built and shaped by ordinary people who simply decided to start.</p>
+    </div>
+  </section>
+
+  <section id="archive">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">07</span><span>Personal Archive</span><div class="rule"></div></div>
+      <div class="archive-grid reveal">
+        <div class="frag f1"><img src="assets/gallery-4.jpg" alt="Fragment"><div class="frag-cap">02 — A place I hope to belong to</div></div>
+        <div class="frag f2"><img src="assets/gallery-1.jpg" alt="Fragment"><div class="frag-cap">03 — Somewhere along the way</div></div>
+        <div class="frag f3"><img src="assets/gallery-2.jpg" alt="Fragment"><div class="frag-cap">04 — Still figuring it out</div></div>
+        <div class="frag f4"><img src="assets/gallery-3.jpg" alt="Fragment"><div class="frag-cap">05 — Building, in a different sense</div></div>
+        <div class="frag f5"><img src="assets/gallery-5.jpg" alt="Fragment"><div class="frag-cap">06 — Looking ahead</div></div>
+        <div class="frag f6"><img src="assets/gallery-4.jpg" alt="Fragment" style="object-position:center 30%;"><div class="frag-cap">07 — One step at a time</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements" class="alt tight">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">08</span><span>Achievements</span><div class="rule"></div></div>
+      <div class="reveal">
+        <div class="achieve-row">
+          <div class="mark">01</div>
+          <div class="body">
+            <h4>OSN Achievement</h4>
+            <p>School &amp; Regency Level — two-time achievement</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="future" class="tight">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">09</span><span>Future</span><div class="rule"></div></div>
+      <div class="future-block reveal">
+        <p>I want to continue in Computer Science / Informatics — and keep growing in technology, AI, software, robotics and business. Long-term, I want to build technology products, and eventually, a technology company.</p>
+        <div class="future-tags">
+          <span class="tag">Computer Science</span>
+          <span class="tag">AI</span>
+          <span class="tag">Software</span>
+          <span class="tag">Robotics</span>
+          <span class="tag">Business</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fear" class="alt">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">10</span><span>Fear</span><div class="rule"></div></div>
+      <div class="fear-grid">
+        <div class="reveal">
+          <div class="fear-q">What scares me?</div>
+          <div class="fear-a">Failing to turn the things I imagine into something real.</div>
+        </div>
+        <div class="reveal">
+          <div class="fear-q">What do I want to prove?</div>
+          <div class="fear-a">That I can build something meaningful from zero.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="coda">
+    <div class="wrap">
+      <div class="eyebrow reveal">The Journey of a Coward</div>
+      <h2 class="reveal">Still afraid.<br>Still moving.</h2>
+      <div class="sign reveal">— Andika</div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-divider reveal"><span class="num">11</span><span>Contact</span><div class="rule"></div></div>
+      <div class="contact-inner">
+        <h2 class="reveal">If something here is worth talking about, I'd like to hear it.</h2>
+        <div class="contact-links reveal">
+          <a href="mailto:itsandika.dev@gmail.com">Email <span>itsandika.dev@gmail.com</span></a>
+          <a href="https://instagram.com/itsandikadev" target="_blank" rel="noopener">Instagram <span>@itsandikadev</span></a>
+          <a href="https://github.com/itsandikadev" target="_blank" rel="noopener">GitHub <span>itsandikadev</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Andika Wijaya, 2026</span>
+    <span>Based in Indonesia</span>
+  </div>
+</footer>
+
+<script>
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive:true });
+
+const menuToggle = document.getElementById('menuToggle');
+const navOverlay = document.getElementById('navOverlay');
+const closeMenu = document.getElementById('closeMenu');
+menuToggle.addEventListener('click', () => navOverlay.classList.add('open'));
+closeMenu.addEventListener('click', () => navOverlay.classList.remove('open'));
+document.querySelectorAll('.ov-link').forEach(a => a.addEventListener('click', () => navOverlay.classList.remove('open')));
+
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold:0.12 });
+revealEls.forEach(el => io.observe(el));
+
+const light = document.getElementById('cursorLight');
+const isCoarse = window.matchMedia('(hover:none), (pointer:coarse)').matches;
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+let lx = mx, ly = my;
+let active = false;
+
+if (!isCoarse) {
+  window.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    if (!active) { active = true; light.classList.add('active'); }
+  });
+  window.addEventListener('mouseleave', () => { light.classList.remove('active'); active = false; });
+
+  function tick(){
+    lx += (mx - lx) * 0.12;
+    ly += (my - ly) * 0.12;
+    light.style.transform = `translate(${lx}px, ${ly}px) translate(-50%,-50%)`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  document.querySelectorAll('a, button, .tag').forEach(el => {
+    el.addEventListener('mouseenter', () => light.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => light.classList.remove('hovering'));
+  });
+}
+
+const preview = document.getElementById('workPreview');
+const plate = document.getElementById('workPlate');
+const tones = {
+  '1': 'linear-gradient(155deg, #cfc7b3 0%, #a9a08a 55%, #7d7461 100%)',
+  '2': 'linear-gradient(155deg, #c3c9c0 0%, #98a294 55%, #6d786b 100%)',
+  '3': 'linear-gradient(155deg, #d6c6b8 0%, #b09a86 55%, #85705d 100%)',
+  '4': 'linear-gradient(155deg, #cdd0c4 0%, #a3a894 55%, #767b66 100%)',
+  '5': 'linear-gradient(155deg, #d8cdb9 0%, #b6a888 55%, #8c7c5e 100%)'
+};
+
+if (!isCoarse) {
+  document.querySelectorAll('.work-row').forEach(row => {
+    row.addEventListener('mouseenter', () => {
+      plate.style.background = tones[row.dataset.tone] || tones['1'];
+      preview.classList.add('active');
+    });
+    row.addEventListener('mouseleave', () => preview.classList.remove('active'));
+  });
+
+  document.getElementById('work').addEventListener('mousemove', (e) => {
+    preview.style.left = e.clientX + 40 + 'px';
+    preview.style.top = e.clientY + 'px';
+  });
+}
+</script>
+
+</body>
+</html>
