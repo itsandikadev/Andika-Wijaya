@@ -264,24 +264,32 @@ section.tight{ padding:90px 0; }
   border:1px solid var(--line);
   overflow:hidden;
   z-index:3;
+  display:block;
   transition:opacity .5s var(--ease), transform .5s var(--ease);
 }
-.work-row:hover .work-thumb{ opacity:1; transform:translateY(-50%) scale(1); }
+.work-row:hover .work-thumb{ opacity:1; transform:translateY(-50%) scale(1); pointer-events:auto; }
 .work-thumb .plate{ position:absolute; inset:0; }
 .work-thumb .plate::before{
   content:'';
   position:absolute; inset:0;
   background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, transparent 1.5px, transparent 5px);
 }
-.work-thumb .plate::after{
-  content:'';
-  position:absolute; inset:0;
-  box-shadow:inset 0 0 34px rgba(0,0,0,0.18);
+.work-thumb iframe{
+  position:absolute;
+  top:0; left:0;
+  width:1600px; height:1200px;
+  border:0;
+  transform-origin:0 0;
+  transform:scale(0.13125);
+  pointer-events:none;
+  background:#fff;
 }
 .work-thumb .mark{
-  position:absolute; left:14px; bottom:12px;
-  font-family:'Instrument Serif', serif; font-style:italic; font-size:15px;
-  color:rgba(251,250,246,0.92); text-shadow:0 1px 6px rgba(0,0,0,0.35);
+  position:absolute; left:10px; bottom:10px;
+  font-family:'Instrument Serif', serif; font-style:italic; font-size:13px;
+  color:#fbfaf6; background:rgba(34,29,21,0.55);
+  padding:2px 8px;
+  z-index:2;
 }
 .tone-1 .plate{ background:linear-gradient(155deg, #cfc7b3 0%, #a9a08a 55%, #7d7461 100%); }
 .tone-2 .plate{ background:linear-gradient(155deg, #c3c9c0 0%, #98a294 55%, #6d786b 100%); }
@@ -532,7 +540,7 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
             <a class="visit" href="https://smart-compos.vercel.app" target="_blank" rel="noopener">Visit Project</a>
             <div class="arrow">→</div>
           </div>
-          <div class="work-thumb tone-1"><div class="plate"></div><span class="mark">01</span></div>
+          <a class="work-thumb tone-1" href="https://smart-compos.vercel.app" target="_blank" rel="noopener" aria-label="Visit NutriBin"><div class="plate"></div><iframe src="https://smart-compos.vercel.app" loading="lazy" tabindex="-1"></iframe><span class="mark">01</span></a>
         </div>
 
         <div class="work-row reveal">
@@ -545,7 +553,7 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
           <div class="side">
             <span class="status">In development</span>
           </div>
-          <div class="work-thumb tone-2"><div class="plate"></div><span class="mark">02</span></div>
+          <div class="work-thumb tone-2"><div class="plate"></div><span class="mark">In development</span></div>
         </div>
 
         <div class="work-row reveal">
@@ -559,7 +567,7 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
             <a class="visit" href="https://wayang-kelompok5.vercel.app" target="_blank" rel="noopener">Visit Project</a>
             <div class="arrow">→</div>
           </div>
-          <div class="work-thumb tone-3"><div class="plate"></div><span class="mark">03</span></div>
+          <a class="work-thumb tone-3" href="https://wayang-kelompok5.vercel.app" target="_blank" rel="noopener" aria-label="Visit Wayang Museum"><div class="plate"></div><iframe src="https://wayang-kelompok5.vercel.app" loading="lazy" tabindex="-1"></iframe><span class="mark">03</span></a>
         </div>
 
         <div class="work-row reveal">
@@ -573,7 +581,7 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
             <a class="visit" href="https://band-musik-bs.vercel.app" target="_blank" rel="noopener">Visit Project</a>
             <div class="arrow">→</div>
           </div>
-          <div class="work-thumb tone-4"><div class="plate"></div><span class="mark">04</span></div>
+          <a class="work-thumb tone-4" href="https://band-music-bs.vercel.app" target="_blank" rel="noopener" aria-label="Visit Band"><div class="plate"></div><iframe src="https://band-musik-bs.vercel.app" loading="lazy" tabindex="-1"></iframe><span class="mark">04</span></a>
         </div>
 
         <div class="work-row reveal">
@@ -587,7 +595,7 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
             <a class="visit" href="https://musik-digital.vercel.app" target="_blank" rel="noopener">Visit Project</a>
             <div class="arrow">→</div>
           </div>
-          <div class="work-thumb tone-5"><div class="plate"></div><span class="mark">05</span></div>
+          <a class="work-thumb tone-5" href="https://musik-digital.vercel.app" target="_blank" rel="noopener" aria-label="Visit Digital Music"><div class="plate"></div><iframe src="https://musik-digital.vercel.app" loading="lazy" tabindex="-1"></iframe><span class="mark">05</span></a>
         </div>
 
       </div>
