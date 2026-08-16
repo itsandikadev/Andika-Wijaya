@@ -8,14 +8,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
 
 :root{
-  --bg: #f7f4ee;
-  --bg-warm: #f2ede2;
-  --paper: #fbfaf6;
-  --line: #dcd5c6;
-  --line-soft: #e6e0d3;
-  --ink: #201e1a;
-  --ink-soft: #6d6759;
-  --ink-faint: #a9a190;
+  --bg: #efe8d8;
+  --bg-warm: #e4d8bd;
+  --bg-deep: #ddcfab;
+  --paper: #f6f0e1;
+  --line: #cdbd9a;
+  --line-soft: #d9cbab;
+  --ink: #221d15;
+  --ink-soft: #675c48;
+  --ink-faint: #a1937899;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -29,6 +30,18 @@ body{
   font-weight:400;
   overflow-x:hidden;
   cursor:default;
+  position:relative;
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  opacity:0.05;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
 ::selection{ background:var(--ink); color:var(--bg); }
@@ -129,7 +142,7 @@ section.tight{ padding:90px 0; }
 .reveal.in{ opacity:1; transform:translateY(0); }
 
 /* ---------- hero ---------- */
-.hero{ min-height:100vh; display:flex; align-items:center; padding-top:90px; }
+.hero{ min-height:100vh; display:flex; align-items:center; padding-top:90px; background:var(--paper); }
 .hero .wrap{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:center; }
 .hero-left .kicker{ font-size:13px; letter-spacing:0.05em; color:var(--ink-soft); margin-bottom:22px; }
 .hero-left h1{
@@ -205,6 +218,7 @@ section.tight{ padding:90px 0; }
 /* ---------- work ---------- */
 .work-list{ position:relative; }
 .work-row{
+  position:relative;
   display:grid; grid-template-columns:60px 1fr auto; align-items:start; gap:28px;
   padding:36px 0; border-bottom:1px solid var(--line); cursor:pointer;
   transition:padding .5s var(--ease);
@@ -240,19 +254,43 @@ section.tight{ padding:90px 0; }
 .work-row:hover h3{ transform:translateX(6px); }
 .work-row:hover .arrow{ transform:rotate(45deg) translateX(4px); color:var(--ink); }
 
-.work-preview{
-  position:fixed; top:0; left:0; width:260px; aspect-ratio:4/3; pointer-events:none; z-index:5;
-  opacity:0; border:1px solid var(--line); overflow:hidden;
-  transition:opacity .45s var(--ease); transform:translate(-50%,-50%);
+.work-thumb{
+  position:absolute;
+  top:50%; right:200px;
+  width:210px; aspect-ratio:4/3;
+  transform:translateY(-50%) scale(0.94);
+  opacity:0;
+  pointer-events:none;
+  border:1px solid var(--line);
+  overflow:hidden;
+  z-index:3;
+  transition:opacity .5s var(--ease), transform .5s var(--ease);
 }
-.work-preview.active{ opacity:1; }
-.work-preview .plate{ position:absolute; inset:0; transition:background 0.3s ease; }
-.work-preview .plate::after{
-  content:''; position:absolute; inset:0;
-  background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.04) 0px, transparent 1px, transparent 4px);
+.work-row:hover .work-thumb{ opacity:1; transform:translateY(-50%) scale(1); }
+.work-thumb .plate{ position:absolute; inset:0; }
+.work-thumb .plate::before{
+  content:'';
+  position:absolute; inset:0;
+  background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, transparent 1.5px, transparent 5px);
 }
+.work-thumb .plate::after{
+  content:'';
+  position:absolute; inset:0;
+  box-shadow:inset 0 0 34px rgba(0,0,0,0.18);
+}
+.work-thumb .mark{
+  position:absolute; left:14px; bottom:12px;
+  font-family:'Instrument Serif', serif; font-style:italic; font-size:15px;
+  color:rgba(251,250,246,0.92); text-shadow:0 1px 6px rgba(0,0,0,0.35);
+}
+.tone-1 .plate{ background:linear-gradient(155deg, #cfc7b3 0%, #a9a08a 55%, #7d7461 100%); }
+.tone-2 .plate{ background:linear-gradient(155deg, #c3c9c0 0%, #98a294 55%, #6d786b 100%); }
+.tone-3 .plate{ background:linear-gradient(155deg, #d6c6b8 0%, #b09a86 55%, #85705d 100%); }
+.tone-4 .plate{ background:linear-gradient(155deg, #cdd0c4 0%, #a3a894 55%, #767b66 100%); }
+.tone-5 .plate{ background:linear-gradient(155deg, #d8cdb9 0%, #b6a888 55%, #8c7c5e 100%); }
+
+@media (max-width:1100px){ .work-thumb{ display:none; } }
 @media (max-width:760px){
-  .work-preview{ display:none; }
   .work-row{ grid-template-columns:30px 1fr; }
   .work-row .side{ grid-column:1/-1; flex-direction:row; justify-content:flex-start; margin-top:10px; }
 }
@@ -483,7 +521,7 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
       <div class="section-divider reveal"><span class="num">02</span><span>Selected Work</span><div class="rule"></div></div>
       <div class="work-list">
 
-        <div class="work-row reveal" data-tone="1">
+        <div class="work-row reveal">
           <div class="num">01</div>
           <div class="title-wrap">
             <h3>NutriBin</h3>
@@ -494,9 +532,10 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
             <a class="visit" href="https://smart-compos.vercel.app" target="_blank" rel="noopener">Visit Project</a>
             <div class="arrow">→</div>
           </div>
+          <div class="work-thumb tone-1"><div class="plate"></div><span class="mark">01</span></div>
         </div>
 
-        <div class="work-row reveal" data-tone="2">
+        <div class="work-row reveal">
           <div class="num">02</div>
           <div class="title-wrap">
             <h3>School Application</h3>
@@ -506,9 +545,10 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
           <div class="side">
             <span class="status">In development</span>
           </div>
+          <div class="work-thumb tone-2"><div class="plate"></div><span class="mark">02</span></div>
         </div>
 
-        <div class="work-row reveal" data-tone="3">
+        <div class="work-row reveal">
           <div class="num">03</div>
           <div class="title-wrap">
             <h3>Wayang Museum</h3>
@@ -519,9 +559,10 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
             <a class="visit" href="https://wayang-kelompok5.vercel.app" target="_blank" rel="noopener">Visit Project</a>
             <div class="arrow">→</div>
           </div>
+          <div class="work-thumb tone-3"><div class="plate"></div><span class="mark">03</span></div>
         </div>
 
-        <div class="work-row reveal" data-tone="4">
+        <div class="work-row reveal">
           <div class="num">04</div>
           <div class="title-wrap">
             <h3>Band</h3>
@@ -532,9 +573,10 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
             <a class="visit" href="https://band-musik-bs.vercel.app" target="_blank" rel="noopener">Visit Project</a>
             <div class="arrow">→</div>
           </div>
+          <div class="work-thumb tone-4"><div class="plate"></div><span class="mark">04</span></div>
         </div>
 
-        <div class="work-row reveal" data-tone="5">
+        <div class="work-row reveal">
           <div class="num">05</div>
           <div class="title-wrap">
             <h3>Digital Music</h3>
@@ -545,11 +587,11 @@ footer .wrap{ display:flex; justify-content:space-between; font-size:11px; lette
             <a class="visit" href="https://musik-digital.vercel.app" target="_blank" rel="noopener">Visit Project</a>
             <div class="arrow">→</div>
           </div>
+          <div class="work-thumb tone-5"><div class="plate"></div><span class="mark">05</span></div>
         </div>
 
       </div>
     </div>
-    <div class="work-preview" id="workPreview"><div class="plate" id="workPlate"></div></div>
   </section>
 
   <section id="philosophy" class="tight">
@@ -750,30 +792,7 @@ if (!isCoarse) {
   });
 }
 
-const preview = document.getElementById('workPreview');
-const plate = document.getElementById('workPlate');
-const tones = {
-  '1': 'linear-gradient(155deg, #cfc7b3 0%, #a9a08a 55%, #7d7461 100%)',
-  '2': 'linear-gradient(155deg, #c3c9c0 0%, #98a294 55%, #6d786b 100%)',
-  '3': 'linear-gradient(155deg, #d6c6b8 0%, #b09a86 55%, #85705d 100%)',
-  '4': 'linear-gradient(155deg, #cdd0c4 0%, #a3a894 55%, #767b66 100%)',
-  '5': 'linear-gradient(155deg, #d8cdb9 0%, #b6a888 55%, #8c7c5e 100%)'
-};
 
-if (!isCoarse) {
-  document.querySelectorAll('.work-row').forEach(row => {
-    row.addEventListener('mouseenter', () => {
-      plate.style.background = tones[row.dataset.tone] || tones['1'];
-      preview.classList.add('active');
-    });
-    row.addEventListener('mouseleave', () => preview.classList.remove('active'));
-  });
-
-  document.getElementById('work').addEventListener('mousemove', (e) => {
-    preview.style.left = e.clientX + 40 + 'px';
-    preview.style.top = e.clientY + 'px';
-  });
-}
 </script>
 
 </body>
